@@ -199,17 +199,21 @@ async function calculate() {
             let itemsToInsert = "";
             let counter = 0;
             Object.keys(itemsData[region][zone]).forEach(itemKey => {
+                mult = "";
+                if (itemsData[region][zone][itemKey].multiple) {
+                    mult = "multiple";
+                }
                 if (id_list.includes(itemKey)) {
                     //Item found
                     counter++;
-                    itemsToInsert += `<div class='itemCard' id='${itemKey}'><a target="_blank" href='https://eldenring.wiki.fextralife.com/${sanitizeURL(itemsData[region][zone][itemKey].name)}'>
+                    itemsToInsert += `<div class='itemCard ${mult}' id='${itemKey}'><a target="_blank" href='https://eldenring.wiki.fextralife.com/${sanitizeURL(itemsData[region][zone][itemKey].name)}'>
                     <img alt="${itemsData[region][zone][itemKey].name}" src="assets/img/items/${sanitizeImgName(itemsData[region][zone][itemKey].name)}.webp"/>
                     <p>${itemsData[region][zone][itemKey].name}</p>
                     </a></div>`;
                 }
                 else {
                     //Item not found
-                    itemsToInsert += `<div class='itemCard disabledCard' id='${itemKey}'>
+                    itemsToInsert += `<div class='itemCard disabledCard ${mult}' id='${itemKey}'>
                     <div class='tooltip'>Hint<div class='tooltipText'>${itemsData[region][zone][itemKey].hint}</div></div>
                     <img alt="${itemsData[region][zone][itemKey].type}" src="assets/img/hints/${itemsData[region][zone][itemKey].type}.png"/>
                     <p>??????????</p>
