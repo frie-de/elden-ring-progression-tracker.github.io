@@ -474,7 +474,7 @@ function collectionPage(pageNumber) {
         row.className = "collectionItemList";
         itemList.forEach(item => {
             const itemInfos = searchItemInfos(item);
-            mult = "";
+            mult = "asd";
             if (itemInfos.multiple) {
                 mult = " multipleItem";
             }
