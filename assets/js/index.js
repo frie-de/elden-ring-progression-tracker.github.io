@@ -399,17 +399,13 @@ function toggleNotFoundItems(value) {
 
 
 function toggleShowMultipleItems(value) {
-    const elts = document.getElementsByClassName("disabledCard");
+    const elts = document.getElementsByClassName("multiple");
     for (let card of elts) {
         if (value) {
-            const name = card.getElementsByTagName("input")[0].value;
-            card.getElementsByTagName("img")[0].src = `assets/img/items/${sanitizeImgName(name)}.webp`;
-            card.getElementsByTagName("p")[0].innerText = name;
+            card.style.visibility = "hidden";
         }
         else {
-            const type = card.getElementsByTagName("input")[1].value;
-            card.getElementsByTagName("img")[0].src = `assets/img/hints/${type}.png`;
-            card.getElementsByTagName("p")[0].innerText = "??????????";
+            card.style.visibility = "visible";
         }
     }
 }
