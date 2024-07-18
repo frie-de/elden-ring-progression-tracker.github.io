@@ -479,7 +479,7 @@ function collectionPage(pageNumber) {
                 mult = " multipleItem";
             }
             if (id_list.includes(item)) {
-                const elt = `<div class='itemCard ${mult}'><a target="_blank" href='https://eldenring.wiki.fextralife.com/${sanitizeURL(itemInfos.name)}'>
+                const elt = `<div class='itemCard ${mult} a'><a target="_blank" href='https://eldenring.wiki.fextralife.com/${sanitizeURL(itemInfos.name)}'>
                 <img alt="${itemInfos.name}" src="assets/img/items/${sanitizeImgName(itemInfos.name)}.webp"/>
                 <p>${itemInfos.name}</p>
                 </a></div>`;
