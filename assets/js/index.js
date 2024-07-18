@@ -177,6 +177,8 @@ async function calculate() {
     //Create toggleNotFoundItems checkbox
     const notFoundCheckbox = "<input type='checkbox' id='notFound' onclick='toggleNotFoundItems(this.checked)'/><label for='notFound'>Display not found items</label>";
 
+    const showMultipleCheckbox = "<input type='checkbox' id='showMultiple' onclick='toggleShowMultipleItems(this.checked)'/><label for='showMultiple'>Display multiple items</label>";
+    
     //Generate collectibles HTML block
     let regionsToInsert = `<dl><dt class='regionTitle closed'>Collectibles<span class='counter'>(${itemsFound} / ${totalItems})</span></dt><dd class='closed'><div class='itemList'>`;
     for (let i = 0; i < quantifiableItems.length; i++) {
@@ -261,7 +263,7 @@ async function calculate() {
     //const collectionLink = "<div><a href='#' onclick='showCollection()'>- See your collection -</a></div>";
 
     //Final insertion
-    document.getElementById("resultSection").innerHTML = completion + /*collectionLink + */notFoundCheckbox + regionsToInsert;
+    document.getElementById("resultSection").innerHTML = completion + /*collectionLink + */notFoundCheckbox + showMultipleCheckbox + regionsToInsert;
 
     //Add collapsible feature
     const elts = document.getElementsByTagName("dt");
@@ -391,6 +393,24 @@ function toggleNotFoundItems(value) {
     }
 }
 
+
+function toggleShowMultipleItems(value) {
+    const elts = document.getElementsByClassName("disabledCard");
+    for (let card of elts) {
+        if (value) {
+            const name = card.getElementsByTagName("input")[0].value;
+            card.getElementsByTagName("img")[0].src = `assets/img/items/${sanitizeImgName(name)}.webp`;
+            card.getElementsByTagName("p")[0].innerText = name;
+        }
+        else {
+            const type = card.getElementsByTagName("input")[1].value;
+            card.getElementsByTagName("img")[0].src = `assets/img/hints/${type}.png`;
+            card.getElementsByTagName("p")[0].innerText = "??????????";
+        }
+    }
+}
+
+
 function sanitizeURL(name) {
     if (name === "Gauntlets")
         return "Chain+Gauntlets";
@@ -454,15 +474,19 @@ function collectionPage(pageNumber) {
         row.className = "collectionItemList";
         itemList.forEach(item => {
             const itemInfos = searchItemInfos(item);
+            mult = "";
+            if (itemInfos.multiple) {
+                mult = " multipleItem";
+            }
             if (id_list.includes(item)) {
-                const elt = `<div class='itemCard'><a target="_blank" href='https://eldenring.wiki.fextralife.com/${sanitizeURL(itemInfos.name)}'>
+                const elt = `<div class='itemCard ${mult}'><a target="_blank" href='https://eldenring.wiki.fextralife.com/${sanitizeURL(itemInfos.name)}'>
                 <img alt="${itemInfos.name}" src="assets/img/items/${sanitizeImgName(itemInfos.name)}.webp"/>
                 <p>${itemInfos.name}</p>
                 </a></div>`;
                 row.innerHTML += elt;
             }
             else {
-                const elt = `<div class='itemCard disabledCard'>
+                const elt = `<div class='itemCard ${mult} disabledCard'>
                     <div class='tooltip'>Hint<div class='tooltipText'>${itemInfos.hint}</div></div>
                     <img alt="${itemInfos.type}" src="assets/img/hints/${itemInfos.type}.png"/>
                     <p>??????????</p>
